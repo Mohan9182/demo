@@ -20,28 +20,27 @@ public class CreateConfig {
 
     public static void main(String[] args) throws IOException {
 
-
         String configLoc = System.getProperty("config.location");
         String dir = configLoc + "/business";
 
         Configuration config = Configuration.builder()
-                        .baseUri("http://docs.update4j.org/demo/business")
-                        .basePath("${user.dir}/business")
-                        .file(FileMetadata.readFrom(dir + "/business-1.0.0.jar").path("business-1.0.0.jar").classpath())
-                        .file(FileMetadata.readFrom(dir + "/controlsfx-9.0.0.jar")
-                                        .uri(mavenUrl("org.controlsfx", "controlsfx", "9.0.0"))
-                                        .classpath())
-                        .file(FileMetadata.readFrom(dir + "/jfoenix-9.0.8.jar")
-                                        .uri(mavenUrl("com.jfoenix", "jfoenix", "9.0.8"))
-                                        .classpath())
-                        .file(FileMetadata.readFrom(dir + "/jfxtras-common-10.0-r1.jar")
-                                        .uri(mavenUrl("org.jfxtras", "jfxtras-common", "10.0-r1"))
-                                        .classpath())
-                        .file(FileMetadata.readFrom(dir + "/jfxtras-gauge-linear-10.0-r1.jar")
-                                        .uri(mavenUrl("org.jfxtras", "jfxtras-gauge-linear", "10.0-r1"))
-                                        .classpath())
-                        .property("maven.central", MAVEN_BASE)
-                        .build();
+                .baseUri("http://docs.update4j.org/demo/business")
+                .basePath("${user.dir}/business")
+                .file(FileMetadata.readFrom(dir + "/business-1.0.0.jar").path("business-1.0.0.jar").classpath())
+                .file(FileMetadata.readFrom(dir + "/controlsfx-9.0.0.jar")
+                        .uri(mavenUrl("org.controlsfx", "controlsfx", "9.0.0"))
+                        .classpath())
+                .file(FileMetadata.readFrom(dir + "/jfoenix-9.0.8.jar")
+                        .uri(mavenUrl("com.jfoenix", "jfoenix", "9.0.8"))
+                        .classpath())
+                .file(FileMetadata.readFrom(dir + "/jfxtras-common-10.0-r1.jar")
+                        .uri(mavenUrl("org.jfxtras", "jfxtras-common", "10.0-r1"))
+                        .classpath())
+                .file(FileMetadata.readFrom(dir + "/jfxtras-gauge-linear-10.0-r1.jar")
+                        .uri(mavenUrl("org.jfxtras", "jfxtras-gauge-linear", "10.0-r1"))
+                        .classpath())
+                .property("maven.central", MAVEN_BASE)
+                .build();
 
         try (Writer out = Files.newBufferedWriter(Paths.get(dir + "/config.xml"))) {
             config.write(out);
@@ -53,25 +52,25 @@ public class CreateConfig {
         cacheJavafx();
 
         config = Configuration.builder()
-                        .baseUri("${maven.central.javafx}")
-                        .basePath("${user.dir}/bootstrap")
-                        .file(FileMetadata.readFrom(dir + "/../business/config.xml") // fall back if no internet
-                                        .uri("http://docs.update4j.org/demo/business/config.xml")
-                                        .path("../business/config.xml"))
-                        .file(FileMetadata.readFrom(dir + "/bootstrap-1.0.0.jar")
-                                        .classpath()
-                                        .uri("http://docs.update4j.org/demo/bootstrap/bootstrap-1.0.0.jar"))
-                        .files(FileMetadata.streamDirectory(cacheLoc)
-                                        .filter(fm -> fm.getSource().getFileName().toString().startsWith("javafx"))
-                                        .peek(f -> f.classpath())
-                                        .peek(f -> f.ignoreBootConflict()) // if run with JDK 9/10
-                                        .peek(f -> f.osFromFilename())
-                                        .peek(f -> f.uri(extractJavafxURL(f.getSource(), f.getOs()))))
+                .baseUri("${maven.central.javafx}")
+                .basePath("${user.dir}/bootstrap")
+                .file(FileMetadata.readFrom(dir + "/../business/config.xml") // fall back if no internet
+                        .uri("https://raw.githubusercontent.com/Mohan9182/demo/master/target/config/business/config.xml")
+                        .path("../business/config.xml"))
+                .file(FileMetadata.readFrom(dir + "/bootstrap-1.0.0.jar")
+                        .classpath()
+                        .uri("https://github.com/Mohan9182/demo/raw/master/target/config/bootstrap/bootstrap-1.0.0.jar"))
+                .files(FileMetadata.streamDirectory(cacheLoc)
+                        .filter(fm -> fm.getSource().getFileName().toString().startsWith("javafx"))
+                        .peek(f -> f.classpath())
+                        .peek(f -> f.ignoreBootConflict()) // if run with JDK 9/10
+                        .peek(f -> f.osFromFilename())
+                        .peek(f -> f.uri(extractJavafxURL(f.getSource(), f.getOs()))))
 
-                        .property("default.launcher.main.class", "org.update4j.Bootstrap")
-                        .property("maven.central", MAVEN_BASE)
-                        .property("maven.central.javafx", "${maven.central}/org/openjfx/")
-                        .build();
+                .property("default.launcher.main.class", "org.update4j.Bootstrap")
+                .property("maven.central", MAVEN_BASE)
+                .property("maven.central.javafx", "${maven.central}/org/openjfx/")
+                .build();
 
         try (Writer out = Files.newBufferedWriter(Paths.get(configLoc + "/setup.xml"))) {
             config.write(out);
@@ -129,10 +128,10 @@ public class CreateConfig {
         try (Stream<Path> files = Files.list(Paths.get(names))) {
             files.forEach(f -> {
                 try {
-                    
+
                     if (!Files.isDirectory(cacheDir))
                         Files.createDirectory(cacheDir);
-                    
+
                     for (OS os : EnumSet.of(OS.WINDOWS, OS.MAC, OS.LINUX)) {
                         Path file = cacheDir.resolve(injectOs(f.getFileName().toString(), os));
 
