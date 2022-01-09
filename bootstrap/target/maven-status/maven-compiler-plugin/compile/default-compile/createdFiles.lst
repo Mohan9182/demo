@@ -1,2 +1,7 @@
+org/update4j/demo/bootstrap/TextSeparator.class
 org/update4j/demo/bootstrap/StartupView$1.class
 org/update4j/demo/bootstrap/StartupView$2.class
+org/update4j/demo/bootstrap/FXMLView.class
+org/update4j/demo/bootstrap/AbortException.class
+org/update4j/demo/bootstrap/StartupView.class
+org/update4j/demo/bootstrap/JavaFxDelegate.class
