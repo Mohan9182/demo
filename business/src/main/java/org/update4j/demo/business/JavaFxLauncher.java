@@ -120,8 +120,8 @@ public class JavaFxLauncher implements Launcher {
 
 		Platform.runLater(() -> {
 			stage.setTitle("Update4j Demo Business");
-			stage.setMinWidth(650);
-			stage.setMinHeight(500);
+			stage.setMinWidth(850);
+			stage.setMinHeight(600);
 
 			stage.setScene(scene);
 
