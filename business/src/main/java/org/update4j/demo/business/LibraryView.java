@@ -65,13 +65,15 @@ public class LibraryView extends FXMLView {
 		TreeItem<String> crumb1 = new TreeItem<>("Item 1");
 		TreeItem<String> crumb2 = new TreeItem<>("Item 2");
 		TreeItem<String> crumb3 = new TreeItem<>("Item 3");
+		TreeItem<String> crumb4 = new TreeItem<>("Item 4");
 
 		crumb1.getChildren().add(crumb2);
 		crumb2.getChildren().add(crumb3);
-		breadCrumb.setSelectedCrumb(crumb3);
+		crumb3.getChildren().add(crumb4);
+		breadCrumb.setSelectedCrumb(crumb4);
 
 		toggleSwitch.selectedProperty().addListener((obs, ov, nv) -> {
-			breadCrumb.setSelectedCrumb(crumb3);
+			breadCrumb.setSelectedCrumb(crumb4);
 		});
 
 		jfxspinner.progressProperty().bind(slider.valueProperty().divide(100));
