@@ -234,6 +234,7 @@ public class StartupView extends FXMLView implements UpdateHandler, Injectable {
 	@Override
 	public void updateDownloadFileProgress(FileMetadata file, float frac) throws AbortException {
 		Platform.runLater(() -> {
+			System.out.println("Downloading");
 			status.setText("Downloading " + file.getPath().getFileName() + " (" + ((int) (100 * frac)) + "%)");
 			secondaryPercent.set(frac);
 		});
